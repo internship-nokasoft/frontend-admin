@@ -141,7 +141,7 @@ const saveProduct = async () => {
         if (product.value.id) {
             const productId = product.value.id;
             const response = await fetch(`http://localhost:8000/api/admin/product/${productId}`, {
-                method: 'PUT',
+                method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
@@ -173,15 +173,7 @@ const saveProduct = async () => {
 
 const editProduct = (editProduct) => {
     product.value = { ...editProduct };
-    console.log(product.value.id);
-    console.log(product.value.size);
-    console.log(product.value.color);
-    console.log(product.value.price);
-    console.log(product.value.quantity);
-    console.log(product.value.short_desc);
-    console.log(product.value.desc);
-    console.log(product.value.product_img);
-    console.log(product.value.product_name);
+    product.value.product_img = {};
     productDialog.value = true;
 };
 
@@ -329,8 +321,6 @@ const initFilters = () => {
 
                 <Dialog v-model:visible="productDialog" :style="{ width: '600px' }" header="Add Product" :modal="true"
                     class="p-fluid">
-                    <img :src="product.product_img" :alt="product.image" v-if="product.image" width="150"
-                        class="mt-0 mx-auto mb-5 block shadow-2" />
                     <div class="field">
                         <label for="name">Product Name</label>
                         <InputText id="name" v-model.trim="product.product_name" required="true" autofocus
@@ -407,7 +397,6 @@ const initFilters = () => {
                     </div>
                     <div class="field">
                         <label>Product image</label>
-                        <!-- <FileUpload mode="basic" type="file" @uploader="onUpload" /> -->
                         <input type="file" @change="onUpload" class="form-control" />
                     </div>
                     <template #footer>
